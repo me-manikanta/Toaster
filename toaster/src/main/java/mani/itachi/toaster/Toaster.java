@@ -4,9 +4,11 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -64,7 +66,7 @@ public class Toaster {
         this.mContext = context;
         this.mMessage = message;
         this.mBackgroundTintColor = -1;
-        this.mDuration = Toast.LENGTH_LONG;
+        this.mDuration = Toast.LENGTH_SHORT;
         this.mFont = SANS_SERIF_CONDENSED;
         this.mWithIcon = false;
         this.mShouldTint = false;
@@ -78,13 +80,13 @@ public class Toaster {
 
     public static @CheckResult
     Toaster error(@NonNull Context context, @NonNull String message) {
-        return error(context, message, Toast.LENGTH_LONG);
+        return error(context, message, Toast.LENGTH_SHORT);
     }
 
     public static @CheckResult
     Toaster error(@NonNull Context context, @NonNull String message, int duration) {
         Toaster toaster = new Toaster(context, message);
-        toaster.setIcon(ToasterUtils.getDrawable(context, R.drawable.ic_error_outline_white_48dp))
+        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
                 .setBackgroundColor(ERROR_TOAST_COLOR)
                 .setDuration(duration);
         return toaster;
@@ -101,8 +103,9 @@ public class Toaster {
         final TextView toastTextView = (TextView) toastLayout.findViewById(R.id.toaster_text);
         Drawable drawableFrame;
 
-        if (shouldTint)
-            drawableFrame = ToasterUtils.tint9PatchDrawableFrame(context, tintColor);
+        if (shouldTint) {
+            drawableFrame = ToasterUtils.Frame(context, tintColor);
+        }
         else
             drawableFrame = ToasterUtils.getDrawable(context, R.drawable.toast_frame);
         ToasterUtils.setBackground(toastLayout, drawableFrame);
@@ -120,6 +123,9 @@ public class Toaster {
 
         currentToast.setView(toastLayout);
         currentToast.setDuration(duration);
+        if(gravitySet){
+            currentToast.setGravity(gravity, xOffset, yOffset);
+        }
         return currentToast;
     }
 
@@ -131,7 +137,7 @@ public class Toaster {
     public static @CheckResult
     Toaster success(@NonNull Context context, @NonNull String message, int duration) {
         Toaster toaster = new Toaster(context, message);
-        toaster.setIcon(ToasterUtils.getDrawable(context, R.drawable.ic_error_outline_white_48dp))
+        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
                 .setBackgroundColor(SUCCESS_TOAST_COLOR)
                 .setDuration(duration);
         return toaster;
@@ -147,8 +153,11 @@ public class Toaster {
         this.mShouldTint = mShouldTint;
     }
 
-    public Toaster setIcon(Drawable mIcon) {
-        this.mIcon = mIcon;
+    public Toaster setIcon(int mIcon) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            this.mIcon = mContext.getDrawable(mIcon);
+        else
+            this.mIcon = mContext.getResources().getDrawable(mIcon);
         setWithIcon(true);
         return this;
     }
@@ -170,7 +179,7 @@ public class Toaster {
     public static @CheckResult
     Toaster info(@NonNull Context context, @NonNull String message, int duration) {
         Toaster toaster = new Toaster(context, message);
-        toaster.setIcon(ToasterUtils.getDrawable(context, R.drawable.ic_error_outline_white_48dp))
+        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
                 .setBackgroundColor(INFO_TOAST_COLOR)
                 .setDuration(duration);
         return toaster;
@@ -184,7 +193,7 @@ public class Toaster {
     public static @CheckResult
     Toaster warning(@NonNull Context context, @NonNull String message, int duration) {
         Toaster toaster = new Toaster(context, message);
-        toaster.setIcon(ToasterUtils.getDrawable(context, R.drawable.ic_error_outline_white_48dp))
+        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
                 .setBackgroundColor(WARNING_TOAST_COLOR)
                 .setDuration(duration);
         return toaster;

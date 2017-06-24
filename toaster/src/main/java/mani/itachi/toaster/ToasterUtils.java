@@ -15,7 +15,7 @@ final class ToasterUtils {
     private ToasterUtils() {
     }
 
-    static Drawable tint9PatchDrawableFrame(@NonNull Context context, @ColorInt int tintColor) {
+    static Drawable Frame(@NonNull Context context, @ColorInt int tintColor) {
         final NinePatchDrawable toastDrawable = (NinePatchDrawable) getDrawable(context, R.drawable.toast_frame);
         toastDrawable.setColorFilter(new PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN));
         return toastDrawable;
