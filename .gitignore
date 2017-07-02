@@ -13,9 +13,6 @@ bin/
 gen/
 out/
 
-# Gradle files
-.gradle/
-build/
 
 # Local configuration file (sdk path, etc)
 local.properties
@@ -54,7 +51,6 @@ freeline.py
 freeline/
 freeline_project_description.json
 *.iml
-.gradle
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
@@ -64,6 +60,3 @@ app/build
 /captures
 .externalNativeBuild
 .idea/
-gradle/
-gradlew
-gradlew.bat
