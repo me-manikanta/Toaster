@@ -1,6 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'itachi.mani.toaster'
+apply plugin: 'maven'
+group = 'com.github.Mani-Itachi'
 version = '1.0'
 
 android {
