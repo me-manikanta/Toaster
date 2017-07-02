@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
+group = 'itachi.mani.toaster'
+version = '1.0'
 
 android {
     compileSdkVersion 25
