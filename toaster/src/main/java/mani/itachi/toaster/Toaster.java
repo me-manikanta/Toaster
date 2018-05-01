@@ -7,8 +7,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.CheckResult;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
-import android.view.Gravity;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,33 +22,33 @@ import android.widget.Toast;
 
 public class Toaster {
     /*
-    * Text Cదlor
-    * */
-    private static final int DEFAULT_TEXT_COLOR = Color.parseColor("#FFFFFF");
-
+     * Default Fonts
+     * */
+    public static final
+    String SANS_SERIF_CONDENSED = "sans-serif-condensed";
+    public static final
+    String SANS_SERIF_LIGHT = "sans-serif-light";
+    public static final
+    String MONOSPACE = "MONOSPACE";
+    public static final
+    String SERIF = "SERIF";
     /*
-    * Toast Color
-    * */
+     * Text Color
+     * */
+    private static final int DEFAULT_TEXT_COLOR = Color.parseColor("#FFFFFF");
+    /*
+     * Toast Color
+     * */
     private static final int ERROR_TOAST_COLOR = Color.parseColor("#D50000");
     private static final int INFO_TOAST_COLOR = Color.parseColor("#3F51B5");
     private static final int SUCCESS_TOAST_COLOR = Color.parseColor("#388E3C");
     private static final int WARNING_TOAST_COLOR = Color.parseColor("#FFA900");
+    private static final Typeface LOADED_TOAST_TYPEFACE = Typeface.create(SANS_SERIF_CONDENSED, Typeface.NORMAL);
+    private static Typeface currentTypeface = LOADED_TOAST_TYPEFACE;
 
     /*
-    * Default Fonts
-    * */
-    private static final
-    String SANS_SERIF_CONDENSED = "sans-serif-condensed";
-    private static final
-    String SANS_SERIF_LIGHT = "sans-serif-light";
-    private static final
-    String MONOSPACE = "MONOSPACE";
-    private static final
-    String SERIF = "SERIF";
-
-    /*
-    * Private Variables
-    * */
+     * Private Variables
+     * */
 
     @NonNull
     private Context mContext;
@@ -92,7 +93,7 @@ public class Toaster {
         return toaster;
     }
 
-    private static @CheckResult
+    public static @CheckResult
     Toast custom(@NonNull Context context, @NonNull String message, Drawable icon,
                  @ColorInt int textColor, @ColorInt int tintColor, int duration,
                  boolean withIcon, boolean shouldTint, String font, boolean gravitySet, int gravity, int xOffset, int yOffset) {
@@ -105,8 +106,7 @@ public class Toaster {
 
         if (shouldTint) {
             drawableFrame = ToasterUtils.Frame(context, tintColor);
-        }
-        else
+        } else
             drawableFrame = ToasterUtils.getDrawable(context, R.drawable.toast_frame);
         ToasterUtils.setBackground(toastLayout, drawableFrame);
 
@@ -117,16 +117,42 @@ public class Toaster {
         } else toastIcon.setVisibility(View.GONE);
 
 
-        toastTextView.setTextColor(textColor);
-        toastTextView.setText(message);
+        if (textColor != -1) toastTextView.setTextColor(textColor);
+        else toastTextView.setTextColor(DEFAULT_TEXT_COLOR);
+        toastTextView.setText(Html.fromHtml(message));
         toastTextView.setTypeface(Typeface.create(font, Typeface.NORMAL));
 
         currentToast.setView(toastLayout);
         currentToast.setDuration(duration);
-        if(gravitySet){
+        if (gravitySet) {
             currentToast.setGravity(gravity, xOffset, yOffset);
         }
         return currentToast;
+    }
+
+    public static @CheckResult
+    Toast custom(@NonNull Context context, @NonNull String message, @DrawableRes int iconRes,
+                 @ColorInt int textColor, @ColorInt int tintColor, int duration,
+                 boolean withIcon, boolean shouldTint, String font, boolean gravitySet,
+                 int gravity, int xOffset, int yOffset) {
+        return custom(context, message, ToasterUtils.getDrawable(context, iconRes),
+                textColor, tintColor, duration,
+                withIcon, shouldTint, font, gravitySet, gravity, xOffset, yOffset);
+    }
+
+    @CheckResult
+    public static Toast custom(@NonNull Context context, @NonNull String message, Drawable icon,
+                               int duration, boolean withIcon) {
+        return custom(context, message, icon, -1, -1,
+                duration, withIcon, false, SANS_SERIF_CONDENSED, false, -1, -1, -1);
+    }
+
+    @CheckResult
+    public static Toast custom(@NonNull Context context, @NonNull String message, @DrawableRes int iconRes,
+                               @ColorInt int textColor, @ColorInt int tintColor, int duration,
+                               boolean withIcon, boolean shouldTint) {
+        return custom(context, message, ToasterUtils.getDrawable(context, iconRes),
+                textColor, tintColor, duration, withIcon, shouldTint, SANS_SERIF_CONDENSED, false, -1, -1, -1);
     }
 
     public static @CheckResult
@@ -139,6 +165,34 @@ public class Toaster {
         Toaster toaster = new Toaster(context, message);
         toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
                 .setBackgroundColor(SUCCESS_TOAST_COLOR)
+                .setDuration(duration);
+        return toaster;
+    }
+
+    public static @CheckResult
+    Toaster info(@NonNull Context context, @NonNull String message) {
+        return info(context, message, Toast.LENGTH_SHORT);
+    }
+
+    public static @CheckResult
+    Toaster info(@NonNull Context context, @NonNull String message, int duration) {
+        Toaster toaster = new Toaster(context, message);
+        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
+                .setBackgroundColor(INFO_TOAST_COLOR)
+                .setDuration(duration);
+        return toaster;
+    }
+
+    public static @CheckResult
+    Toaster warning(@NonNull Context context, @NonNull String message) {
+        return warning(context, message, Toast.LENGTH_SHORT);
+    }
+
+    public static @CheckResult
+    Toaster warning(@NonNull Context context, @NonNull String message, int duration) {
+        Toaster toaster = new Toaster(context, message);
+        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
+                .setBackgroundColor(WARNING_TOAST_COLOR)
                 .setDuration(duration);
         return toaster;
     }
@@ -171,34 +225,6 @@ public class Toaster {
         return this;
     }
 
-    public static @CheckResult
-    Toaster info(@NonNull Context context, @NonNull String message) {
-        return info(context, message, Toast.LENGTH_SHORT);
-    }
-
-    public static @CheckResult
-    Toaster info(@NonNull Context context, @NonNull String message, int duration) {
-        Toaster toaster = new Toaster(context, message);
-        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
-                .setBackgroundColor(INFO_TOAST_COLOR)
-                .setDuration(duration);
-        return toaster;
-    }
-
-    public static @CheckResult
-    Toaster warning(@NonNull Context context, @NonNull String message) {
-        return warning(context, message, Toast.LENGTH_SHORT);
-    }
-
-    public static @CheckResult
-    Toaster warning(@NonNull Context context, @NonNull String message, int duration) {
-        Toaster toaster = new Toaster(context, message);
-        toaster.setIcon(R.drawable.ic_error_outline_white_48dp)
-                .setBackgroundColor(WARNING_TOAST_COLOR)
-                .setDuration(duration);
-        return toaster;
-    }
-
     public Toaster setTextColor(int mTextColor) {
         this.mTextColor = mTextColor;
         return this;
@@ -220,6 +246,7 @@ public class Toaster {
     private void setGravity(boolean gravitySet) {
         this.mGravitySet = gravitySet;
     }
+
 
     public void show() {
         custom(mContext, mMessage, mIcon, mTextColor, mBackgroundTintColor, mDuration, mWithIcon, mShouldTint, mFont, mGravitySet, mGravity, mXOffset, mYOffset).show();

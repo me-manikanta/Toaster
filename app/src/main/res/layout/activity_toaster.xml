@@ -1,46 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:layout_margin="8dp"
     android:gravity="center"
+    android:orientation="vertical"
     tools:context="mani.itachi.toasterexample.ToasterActivity">
 
     <Button
         android:id="@+id/normal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Normal toast without icon"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:text="Normal toast without icon" />
 
     <Button
         android:id="@+id/normal_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Normal toast with icon"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:text="Normal toast with icon" />
 
     <Button
         android:id="@+id/error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Error"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:text="Error Toast" />
 
     <Button
         android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Info Toast Center"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:text="Info Toast " />
 
     <Button
-        android:id="@+id/succes"
+        android:id="@+id/success"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Success toast on top"
-        android:onClick="onClick"/>
+        android:onClick="onClick"
+        android:text="Success Toast" />
+
+    <Button
+        android:id="@+id/customConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="Toasst with custom config" />
+
+    <Button
+        android:id="@+id/center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="Center Toast" />
+
+    <Button
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onClick"
+        android:text="Top Toast" />
 
 </LinearLayout>
