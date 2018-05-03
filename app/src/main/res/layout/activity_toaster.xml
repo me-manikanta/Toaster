@@ -7,6 +7,7 @@
     android:layout_margin="8dp"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="#5422"
     tools:context="mani.itachi.toasterexample.ToasterActivity">
 
     <Button
@@ -49,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="Toasst with custom config" />
+        android:text="Toast with custom config" />
 
     <Button
         android:id="@+id/center"

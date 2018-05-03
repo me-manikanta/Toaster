@@ -23,7 +23,10 @@ public class ToasterActivity extends AppCompatActivity {
                 Toaster.makeText(this, "Hi! This is a sample toast").show();
                 break;
             case R.id.normal_icon:
-                Toaster.makeText(this, "A toast with a cute cat").setIcon(R.drawable.cat).show();
+                Toaster.makeText(this, "A toast with a cute cat").setIcon(R.drawable.cat)
+                        .setBackgroundColor(Color.parseColor("#FFFFFF"))
+                        .setTextColor(Color.parseColor("#000000"))
+                        .show();
                 break;
             case R.id.error:
                 Toaster.error(this, "Oops! Error occurred").show();
